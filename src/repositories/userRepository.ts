@@ -1,12 +1,12 @@
 import prisma from "../database/prismaClient.js";
-import { UserIsertData } from "../types/userTypes.js";
+import { User } from "../types/userTypes.js";
 
-export async function createUser(data: UserIsertData) {
+export async function createUser(data: Omit<User, "id">) {
   await prisma.users.create({ data });
 }
 
 export async function findUserByEmail(email: string) {
-  const user = await prisma.users.findUnique({
+  const user: User = await prisma.users.findUnique({
     where: {
       email,
     },

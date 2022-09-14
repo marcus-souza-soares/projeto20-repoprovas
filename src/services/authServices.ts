@@ -1,8 +1,8 @@
-import * as userRepository from "../repositories/userRepository.js";
+import * as userRepository from "../repositories/userRepository";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { UserIsertData, User } from "../types/userTypes.js";
+import { User } from "../types/userTypes";
 
 
 dotenv.config();
@@ -14,13 +14,13 @@ export async function login(email:string, password:string){
     return token;
 }
 
-export async function createUser( userData: UserIsertData
+export async function createUser( userData: Omit<User, "id">
     
 ) {
-    const { email, password, name} = userData;
+    const { email, password} = userData;
     const user = await userRepository.findUserByEmail(email);
     if(!!user) throw { code: "NotAllowed", message: "Usuário já cadastrado!"};
-    await userRepository.createUser({ email, password: encriptPassword(password), name });
+    await userRepository.createUser({ email, password: encriptPassword(password) });
 }
 
 function encriptPassword(pass: string) {

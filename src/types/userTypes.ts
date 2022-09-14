@@ -1,6 +1,5 @@
-import { users } from "@prisma/client";
+import { Users } from "@prisma/client";
 
-type User = users;
-type UserIsertData = Omit<users, "id">;
+type User = Users;
 
-export { User, UserIsertData }
+export { User };
