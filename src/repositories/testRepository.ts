@@ -6,10 +6,37 @@ export async function createTest(test: Omit<Tests, "id">) {
     data: test,
   });
 }
-export async function findByUrlAndName(test: Partial<Tests>){
+export async function findByUrlAndName(test: Partial<Tests>) {
   return await prisma.tests.findFirst({
     where: {
-      ...test
-    }
-  })
+      ...test,
+    },
+  });
+}
+
+export async function findTestsByDiscipline() {
+  return await prisma.terms.findMany({
+    select: {
+      id: true,
+      number: true,
+      disciplines: {
+        select: {
+          name: true,
+          id: true,
+          teacherDisciplines: {
+            select: {
+              id: true,
+              disciplineId: true,
+              teacher: true,
+              testes: {
+                include: {
+                  category: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
 }

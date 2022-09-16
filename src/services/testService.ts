@@ -40,3 +40,7 @@ export async function insertTest(test: TestsToInsert) {
     teacherDisciplineId: teacherDiscipline.id,
   });
 }
+
+export async function findTestsByDiscipline(){
+  return await testRepository.findTestsByDiscipline();
+}
