@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,40 +58,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 exports.__esModule = true;
-exports.findUserByEmail = exports.createUser = void 0;
-var prismaClient_1 = __importDefault(require("../database/prismaClient"));
-function createUser(data) {
+exports.login = exports.register = void 0;
+var userService = __importStar(require("../services/authServices"));
+function register(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prismaClient_1["default"].users.create({ data: data })];
+        var _a, email, password;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, email = _a.email, password = _a.password;
+                    if (!email || !password)
+                        return [2 /*return*/, res.sendStatus(417)];
+                    return [4 /*yield*/, userService.createUser({ email: email, password: password })];
                 case 1:
-                    _a.sent();
+                    _b.sent();
+                    res.sendStatus(201);
                     return [2 /*return*/];
             }
         });
     });
 }
-exports.createUser = createUser;
-function findUserByEmail(email) {
+exports.register = register;
+function login(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var user;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prismaClient_1["default"].users.findUnique({
-                        where: {
-                            email: email
-                        }
-                    })];
+        var _a, email, password, token;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _a = req.body, email = _a.email, password = _a.password;
+                    if (!email || !password)
+                        return [2 /*return*/, res.status(417)];
+                    return [4 /*yield*/, userService.login(email, password)];
                 case 1:
-                    user = _a.sent();
-                    return [2 /*return*/, user];
+                    token = _b.sent();
+                    res.status(200).send({ token: token });
+                    return [2 /*return*/];
             }
         });
     });
 }
-exports.findUserByEmail = findUserByEmail;
+exports.login = login;

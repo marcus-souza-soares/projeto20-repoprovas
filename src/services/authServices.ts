@@ -1,14 +1,13 @@
-import * as userRepository from "../repositories/userRepository";
+import * as userRepository from "../repositories/userRepository.js";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { User } from "../types/userTypes";
-
+import { User } from "../types/userTypes.js";
 
 dotenv.config();
 
 export async function login(email:string, password:string){
-    const user = await findUserByEmail(email);
+    const user: User = await findUserByEmail(email);
     if(!user || !comparePassword(password, user.password)) throw { code: "NotFound", message: "Verifique os campos novamente!"};
     const token = buildToken(user);
     return token;

@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,7 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-export function errorHandlingMiddleware(error, req, res, next) {
+exports.__esModule = true;
+exports.errorHandlingMiddleware = void 0;
+function errorHandlingMiddleware(error, req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             if (error.code === "NotFound")
@@ -43,7 +46,10 @@ export function errorHandlingMiddleware(error, req, res, next) {
                 return [2 /*return*/, res.status(409).send(error.message)];
             if (error.code === "NotAllowed")
                 return [2 /*return*/, res.status(406).send(error.message)];
+            if (error.conde === "Dimiss")
+                return [2 /*return*/, res.status(422).send(error.message)];
             return [2 /*return*/, res.sendStatus(500)];
         });
     });
 }
+exports.errorHandlingMiddleware = errorHandlingMiddleware;

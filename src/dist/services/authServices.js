@@ -1,4 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,14 +62,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.findUserByEmail = exports.createUser = void 0;
-var prismaClient_1 = __importDefault(require("../database/prismaClient"));
-function createUser(data) {
+exports.findUserByEmail = exports.createUser = exports.login = void 0;
+var userRepository = __importStar(require("../repositories/userRepository"));
+var bcrypt_1 = __importDefault(require("bcrypt"));
+var dotenv_1 = __importDefault(require("dotenv"));
+var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+dotenv_1["default"].config();
+function login(email, password) {
     return __awaiter(this, void 0, void 0, function () {
+        var user, token;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prismaClient_1["default"].users.create({ data: data })];
+                case 0: return [4 /*yield*/, findUserByEmail(email)];
                 case 1:
+                    user = _a.sent();
+                    if (!user || !comparePassword(password, user.password))
+                        throw { code: "NotFound", message: "Verifique os campos novamente!" };
+                    token = buildToken(user);
+                    return [2 /*return*/, token];
+            }
+        });
+    });
+}
+exports.login = login;
+function createUser(userData) {
+    return __awaiter(this, void 0, void 0, function () {
+        var email, password, user;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    email = userData.email, password = userData.password;
+                    return [4 /*yield*/, userRepository.findUserByEmail(email)];
+                case 1:
+                    user = _a.sent();
+                    if (!!user)
+                        throw { code: "NotAllowed", message: "Usuário já cadastrado!" };
+                    return [4 /*yield*/, userRepository.createUser({ email: email, password: encriptPassword(password) })];
+                case 2:
                     _a.sent();
                     return [2 /*return*/];
             }
@@ -54,16 +106,19 @@ function createUser(data) {
     });
 }
 exports.createUser = createUser;
+function encriptPassword(pass) {
+    var crypted_password = bcrypt_1["default"].hashSync(pass, 6);
+    return crypted_password;
+}
+function comparePassword(pass, userPass) {
+    return bcrypt_1["default"].compareSync(pass, userPass);
+}
 function findUserByEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var user;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, prismaClient_1["default"].users.findUnique({
-                        where: {
-                            email: email
-                        }
-                    })];
+                case 0: return [4 /*yield*/, userRepository.findUserByEmail(email)];
                 case 1:
                     user = _a.sent();
                     return [2 /*return*/, user];
@@ -72,3 +127,8 @@ function findUserByEmail(email) {
     });
 }
 exports.findUserByEmail = findUserByEmail;
+function buildToken(user) {
+    var jwtKey = process.env.SECRET_KEY;
+    var config = { expiresIn: process.env.EXPIRES_TOKEN || "1h" };
+    return jsonwebtoken_1["default"].sign(user, jwtKey, config);
+}

@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "start": "node src/dist/index.js",
-    "dev": " nodemon src/index.ts",
+    "start": "node src/dist/server.js",
+    "dev": " nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "type": "module",
   "keywords": [],
