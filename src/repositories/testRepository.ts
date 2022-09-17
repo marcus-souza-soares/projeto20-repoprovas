@@ -46,7 +46,9 @@ export async function findTestsByTeacher() {
       teacher: true,
       discipline: true,
       tests: {
-        include: { category: true },
+        include: {
+          category: true,
+        },
       },
     },
   });
