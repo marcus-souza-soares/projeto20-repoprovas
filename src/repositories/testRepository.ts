@@ -28,7 +28,7 @@ export async function findTestsByDiscipline() {
               id: true,
               disciplineId: true,
               teacher: true,
-              testes: {
+              tests: {
                 include: {
                   category: true,
                 },
@@ -36,6 +36,17 @@ export async function findTestsByDiscipline() {
             },
           },
         },
+      },
+    },
+  });
+}
+export async function findTestsByTeacher() {
+  return await prisma.teachersDisciplines.findMany({
+    include: {
+      teacher: true,
+      discipline: true,
+      tests: {
+        include: { category: true },
       },
     },
   });
