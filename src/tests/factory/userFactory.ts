@@ -1,6 +1,5 @@
 import { faker } from "@faker-js/faker";
 import { User } from "../../types/userTypes.js";
-import bycrypt from "bcrypt";
 import prisma from "../../database/prismaClient.js";
 
 export function authFactory(): Omit<User, "id"> {
