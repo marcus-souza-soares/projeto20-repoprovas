@@ -2,7 +2,7 @@
 
 <p align = "center">
    <img src="https://img.shields.io/badge/author-MARCUS_VINICIUS-4dae71?style=flat-square" />
-   <img src="https://img.shields.io/github/languages/count/MARCUS_VINICIUS/projeto20-repoprovas?color=4dae71&style=flat-square" />
+   <img src="https://img.shields.io/github/languages/count/MARCUS_VINICIUS/[projeto20-repoprovas](https://github.com/marcus-souza-soares/projeto20-repoprovas)?color=4dae71&style=flat-square" />
 </p>
 
 
