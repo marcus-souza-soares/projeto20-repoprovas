@@ -94,4 +94,6 @@ Finalizado o processo, é só inicializar o servidor
 npm start
 ```
 
+Importe o arquivo "thunder-collection_repoprovas" no thunder client, para ver as rotas detalhadamente.
+
 :stop_sign: Se quiser rodar um servidor na sua própria máquina, crie um arquivo ".env" na raiz do repositório de acordo com o ".env-exemple"
