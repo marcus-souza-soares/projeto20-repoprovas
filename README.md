@@ -46,21 +46,21 @@ POST /signin
 ```
     
 ```yml 
-GET //find_by_disciplines (autenticada)
+GET /find_by_disciplines (autenticada)
     - Rota para listar todas as provas por disciplina
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
 ```
 
 ```yml
-GET //find_by_teachers (autenticada)
+GET /find_by_teachers (autenticada)
     - Rota para listar todas as provas por professores
     - headers: { "Authorization": "Bearer $token" }
     - body: {}
 ``` 
 
 ```yml
-POST //insert/test (autenticada)
+POST /insert/test (autenticada)
     - Rota para atualizar um usuário pelo id
     - Para funcionar, deve haver um professor ministrando a disciplina gerada e uma categoria específica cadastrada
     - headers: { "Authorization": "Bearer $token" }
