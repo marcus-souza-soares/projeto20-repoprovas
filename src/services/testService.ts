@@ -4,13 +4,16 @@ import { findTeacherById } from "./teacherService.js";
 import { findDisciplineById } from "./disciplineService.js";
 import { findTeacherDisciplineById } from "./teacherDiscipline.js";
 import * as testRepository from "../repositories/testRepository.js";
+import * as userService from "./authServices.js";
 
-export async function insertTest(test: TestsToInsert) {
+export async function insertTest(userId: number, test: TestsToInsert) {
   const { categoryId, disciplineId, teacherId } = test;
   const _test = await testRepository.findByUrlAndName({
     pdfUrl: test.pdfUrl,
     name: test.name,
   });
+  const user = await userService.findUserById(userId);
+  if (!user) throw { code: "NotAllowed", message: "Usuário não permitido!" };
 
   if (!!_test)
     throw { code: "NotAllowed", message: "Esse prova já foi cadastrada!" };
@@ -41,12 +44,17 @@ export async function insertTest(test: TestsToInsert) {
   });
 }
 
-export async function findTestsByDiscipline(){
+export async function findTestsByDiscipline(userId: number) {
+  const user = await userService.findUserById(userId);
+  if (!user) throw { code: "NotAllowed", message: "Usuário não permitido!" };
+
   const query = await testRepository.findTestsByDiscipline();
   return query;
-  
 }
 
-export async function findTestsByTeacher(){
+export async function findTestsByTeacher(userId: number) {
+  const user = await userService.findUserById(userId);
+  if (!user) throw { code: "NotAllowed", message: "Usuário não permitido!" };
+
   return await testRepository.findTestsByTeacher();
 }
