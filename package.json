@@ -7,12 +7,12 @@
     "build": "tsc",
     "start": "node src/dist/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "jest -i --no-cache"
+    "test": "npx dotenv -e .env.test prisma migrate dev && npx dotenv -e .env.test jest -i"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
-  "type": "commonjs",
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",

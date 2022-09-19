@@ -3,7 +3,7 @@ import { errorHandlingMiddleware } from "./middlewares/errorMiddleware.js";
 import "express-async-errors";
 import cors from "cors";
 
-import router from "./routes/index";
+import router from "./routes/index.js";
 
 const app = express();
 app.use(json());

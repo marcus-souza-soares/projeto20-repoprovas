@@ -42,7 +42,9 @@ export async function insertTest(test: TestsToInsert) {
 }
 
 export async function findTestsByDiscipline(){
-  return await testRepository.findTestsByDiscipline();
+  const query = await testRepository.findTestsByDiscipline();
+  return query;
+  
 }
 
 export async function findTestsByTeacher(){

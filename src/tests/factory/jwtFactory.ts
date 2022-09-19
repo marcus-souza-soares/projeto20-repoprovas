@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import prisma from "../../database/prismaClient";
 import { authFactory, createUser } from "./userFactory";
 import dotenv from "dotenv";
-import { User } from "../../types/userTypes.js"
+import { User } from "../../types/userTypes.js";
+
 dotenv.config();
 
 export async function jwtFactory() {
