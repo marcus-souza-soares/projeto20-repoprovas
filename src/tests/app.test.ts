@@ -1,4 +1,4 @@
-import app from "../../src/index.js";
+import app from "../index.js";
 import supertest from "supertest";
 import prisma from "../database/prismaClient.js";
 import { authFactory, createUser } from "./factory/userFactory.js";
@@ -53,7 +53,6 @@ describe("Teste de criação de novas provas", () => {
     const _test = await testFactory();
     const token = await jwtFactory();
     const result = await supertest(app).post("/insert/test").set("Authorization", `Bearer ${token}`).send(_test);
-    console.log(result.error)
     expect(result.status).toBe(201);
   })
 })

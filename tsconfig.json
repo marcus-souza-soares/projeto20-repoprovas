@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "es6",
     "moduleResolution": "node",
-    "outDir": "./src/dist",
+    "outDir": "./dist",
     "esModuleInterop": true
   },
   "ts-node": {
