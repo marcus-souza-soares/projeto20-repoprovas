@@ -34,6 +34,10 @@ export async function findUserByEmail(email: string){
     const user = await userRepository.findUserByEmail(email);
     return user;
 }
+export async function findUserById(id: number){
+    const user = await userRepository.findUserById(id);
+    return user;
+}
 function buildToken(user: User){
     const jwtKey = process.env.SECRET_KEY;
     const config = { expiresIn: process.env.EXPIRES_TOKEN || "1h"}

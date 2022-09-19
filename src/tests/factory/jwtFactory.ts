@@ -14,5 +14,5 @@ export async function jwtFactory() {
       email: user.email,
     },
   });
-  return jwt.sign({ userId: createdUser.id }, process.env.SECRET_KEY);
+  return jwt.sign({ id: createdUser.id }, process.env.SECRET_KEY);
 }
